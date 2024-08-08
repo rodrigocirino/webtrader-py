@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 from service.advice_trading import AdviceTrading
+from service.external.console_log import ConsoleLog
 from service.trade_analysis import TradeAnalysis
 
 app = FastAPI()
@@ -13,16 +14,13 @@ class TradeData:
         self.service = service
         self.symbol = symbols
         self.today = today
-        self.process()
 
     def process(self):
         trade_analysis = TradeAnalysis(self.service, self.symbol, self.today)
         trade_analysis.run()
-
-        print(f"{'*'*10}\tfull df\t{'*'*10}")
-        print(trade_analysis.df)
-        print(f"{'*'*10}\tfull df\t{'*'*10}")
-
+        # show in logs
+        ConsoleLog(trade_analysis)
+        # get market json
         json_trade = AdviceTrading(trade_analysis)
         return json_trade.market
 
@@ -34,4 +32,5 @@ def read_user_item(service: str, symbol: str | None = None, today: bool = False)
 
 if __name__ == "__main__":
     # uvicorn app:fast --host 0.0.0.0 --port 80
-    uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True, workers=2)
+    # uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True, workers=2)
+    uvicorn.run(app, port=80)

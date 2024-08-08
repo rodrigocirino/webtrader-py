@@ -29,13 +29,11 @@ class TradeAnalysis:
         try:
             if self.rates.initialize():
                 self.process_ticks()
-                print("+ MT5 Inicializado.")
             else:
                 print("Falha na inicialização do serviço.")
         except KeyboardInterrupt:
             print("Interrupção pelo usuário. Encerrando o programa...")
         finally:
-            print("- MT5 Finalizado.")
             self.rates.finalize()
 
     def process_ticks(self):
@@ -52,14 +50,7 @@ class TradeAnalysis:
         else:
             loggs.info(f"-- Rates of {self.symbol} with {self.servicemanager} in {datetime.now()} --")
             self.mining_dataframe(df)
-
             self.analyze_indicators()
-
-            self.print_dataframe()
-
-            # self.one_last_dataframe()
-
-            # AdviceTrading(self.df)  # self.df filtered
 
     def mining_dataframe(self, bars):
         self.df = pd.DataFrame(bars)
@@ -73,30 +64,6 @@ class TradeAnalysis:
             self.df["zone"] = self.df.index.tz_convert("America/Sao_Paulo")
         self.df["zone"] = self.df["zone"].dt.strftime("%H:%M:%S")  # %Y/%m/%d %H:%M:%S
         # Etc/GMT+3, Brazil/East, America/Sao_Paulo
-
-    def print_dataframe(self):
-        self.df.drop(
-            columns=["tick_volume", "spread", "real_volume"],  # "open", "high", "low"
-            errors="ignore",
-            inplace=True,
-        )
-        df = self.df.loc[:, ~self.df.columns.isin(["open", "high", "low"])]
-        loggs.info(f"-- {self.symbol} Período disponível: {df.index.min()} a {df.index.max()}")
-        loggs.info(f"\n{'_' * 10} print_dataframe {'_' * 50}")
-        # Reorder columns
-        # df = df.reindex(columns=["zone", "close", "atrs", "afs", "ema20", "stoch", "aroon"])
-        # If false return string vazia
-        if self.today:
-            loggs.info(df[self.df.index >= pd.Timestamp.now(tz="UTC").normalize()].tail(150).to_string(index=True))
-        else:
-            loggs.info(df)
-        # print(df[["tick_volume"]].sort_values("tick_volume", ascending=False).tail(100))
-
-    def one_last_dataframe(self):
-        df = self.df.loc[:, ~self.df.columns.isin(["open", "high", "low"])]
-        loggs.info(f"\n{'_' * 10} one_last_dataframe {'_' * 50}")
-        # Imprime cada coluna com seu valor na última linha, alinhando com 50 caracteres de forma pythonica
-        loggs.info("\n".join(f"{col.ljust(20)}: {val}" for col, val in df.iloc[-1].items()))
 
     def analyze_indicators(self):
         # Cria uma instância do controlador

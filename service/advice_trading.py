@@ -67,6 +67,4 @@ class AdviceTrading:
                 signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])
 
         self.market = signals.get_signals()
-        print(self.market)
         self.market = signals.group_market(self.market)
-        print(self.market)
