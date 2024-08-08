@@ -4,14 +4,12 @@ import pandas as pd
 
 from service.external.loggs import Loggs
 from service.external.pandas_config import PandasConfig
-
-# from service.external.scheduler import Scheduler
 from service.external.server import Server
 from service.indicators.aroon import Aroon
 from service.indicators.ema import Ema
-from service.indicators.interface.command import CommandController
 from service.indicators.stochastic import Stochastic
 from service.indicators.true_range import TrueRange
+from service.interface.command import CommandController
 
 PandasConfig.apply_settings()
 
@@ -62,9 +60,6 @@ class TradeAnalysis:
             # self.one_last_dataframe()
 
             # AdviceTrading(self.df)  # self.df filtered
-
-            # Update Scheduler
-            # self.scheduler.renew(self.process_ticks, self.rates.server_time(self.symbol))
         return self.df
 
     def print_dataframe(self):
@@ -101,14 +96,3 @@ class TradeAnalysis:
         controller.add_command(Stochastic(self.df))
         # Processa os comandos
         controller.process_command()
-
-    # def run(self):
-    #     try:
-    #         if self.rates.initialize():
-    #             self.scheduler.renew(self.process_ticks())
-    #         else:
-    #             print("Falha na inicialização do serviço.")
-    #     except KeyboardInterrupt:
-    #         print("Interrupção pelo usuário. Encerrando o programa...")
-    #     finally:
-    #         self.rates.finalize()

@@ -1,6 +1,6 @@
 import numpy as np
 
-from service.indicators.interface.command import Command
+from service.interface.command import Command
 
 """
 Confict with Sideways Alert: Se a EMA esta muito proxima, cruzando ou tem um alerta de mercado lateral
@@ -20,8 +20,8 @@ class Ema(Command):
         ema = self.df["close"].ewm(span=s).mean()
         color_column = "ema" + str(s)
         self.df[color_column] = ""  # Default color
-        self.df.loc[self.df["low"] > ema, color_column] = "Altista"
-        self.df.loc[self.df["high"] < ema, color_column] = "Baixista"
+        self.df.loc[self.df["low"] > ema, color_column] = True  # up bullish
+        self.df.loc[self.df["high"] < ema, color_column] = False  # down bearish
 
     def afastamento(self, s=20):
         ema = self.df["close"].ewm(span=s).mean()

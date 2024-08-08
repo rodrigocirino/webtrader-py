@@ -1,6 +1,6 @@
 import numpy as np
 
-from service.indicators.interface.command import Command
+from service.interface.command import Command
 
 
 class TrueRange(Command):

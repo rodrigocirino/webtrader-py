@@ -1,6 +1,6 @@
 import pandas_ta as ta
 
-from service.indicators.interface.command import Command
+from service.interface.command import Command
 
 """Indicator: Stochastic Oscillator (STOCH)"""
 
@@ -34,16 +34,8 @@ class Stochastic(Command):
 
     def define_strength(self, k, d):
         if k > 80 and d > 80:
-            return "Altista"
+            return "up"
         elif k < 20 and d < 20:
-            return "Baixista"
+            return "down"
         else:
-            return ""
-
-
-"""
-zscore = ta.zscore(self.df.close, length=20)
-print(zscore)
-stochrsi = ta.stochrsi(self.df.close)
-print(stochrsi)
-"""
+            return None

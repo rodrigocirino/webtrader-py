@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://fastapi.tiangolo.com/pt/" target="blank"><img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" 
-width="200" alt="FastApi Logo" /></a>
+width="300" alt="FastApi Logo" /></a>
 </p>
 
 - This project use FastAPI Framework.

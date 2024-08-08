@@ -1,7 +1,7 @@
 import pandas as pd
 import pandas_ta as ta
 
-from service.indicators.interface.command import Command
+from service.interface.command import Command
 
 """
 Objetivo: Indicar pontos de entrada numa tendência muito forte.
@@ -33,10 +33,10 @@ class Aroon(Command):
 
 def define_trend_strength(aroon_up, aroon_down):
     if aroon_up > 80 and aroon_down < 20:
-        return "Altista"
+        return "up"
     elif aroon_down > 80 and aroon_up < 20:
-        return "Baixista"
+        return "down"
     elif (80 >= aroon_up >= 50 > aroon_down) or (80 >= aroon_down >= 50 > aroon_up):
-        return "Transição"
+        return "mid"  # transition part
     else:
-        return ""
+        return None
