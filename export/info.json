@@ -1,27 +1,27 @@
 {
   "info": [
     {
-      "symbol": "Usa500",
-      "service": "mt5",
-      "zone": "15:35:00",
-      "date": "2024-08-08T20:35:00+00:00",
+      "symbol": "^SPX",
+      "service": "yf",
+      "zone": "15:15:00",
+      "date": "2024-08-08T18:15:00+00:00",
       "ajuste": null
     }
   ],
   "market": {
-    "bearish": {
-      "low": [
-        "Barra de baixa 'close < open'"
-      ]
-    },
     "bullish": {
       "low": [
+        "Barra de alta 'close > open'",
         "EMA20 Bullish"
+      ],
+      "high": [
+        "Aroon Altista",
+        "Stochastic Altista"
       ]
     },
     "both": {
-      "medium": [
-        "Aroon Transicao"
+      "high": [
+        "3.25x Afastamento da EMA acima 2x, evite entradas a mercado."
       ]
     }
   }

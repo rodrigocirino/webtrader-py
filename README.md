@@ -22,9 +22,11 @@ uvicorn app:fast --host 0.0.0.0 --port 80
 ```bash
 # Test with
 # 🤩 wsl or linux terminal
-curl --location 'http://localhost/trade?service=mt5&symbol=MinDolSep24' | jq .
-curl --location 'http://localhost/trade?service=mt5&symbol=QQQ.US&today=True'
+curl http://localhost/trade?service=mt5&symbol=MinDolSep24 | jq .
+curl http://localhost/trade?service=mt5&symbol=QQQ.US&today=True
+curl http://localhost/trade?service=mt5&symbol=Bra50&today=True&log=False
 # 🤬 powershell json returns
-(curl 'http://localhost/trade?service=yf&symbol=%5ESPX' -UseBasicParsing).Content | ConvertFrom-Json | ConvertTo-Json -Depth 10
+(curl 'http://localhost/trade?service=yf&symbol=^SPX' -UseBasicParsing).Content | ConvertFrom-Json | 
+ConvertTo-Json -Depth 10
 
 ```
