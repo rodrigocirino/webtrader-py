@@ -18,6 +18,11 @@ class TradeData:
     def process(self):
         trade_analysis = TradeAnalysis(self.service, self.symbol, self.today)
         trade_analysis.run()
+
+        print(f"{'*'*10}\tfull df\t{'*'*10}")
+        print(trade_analysis.df)
+        print(f"{'*'*10}\tfull df\t{'*'*10}")
+
         json_trade = AdviceTrading(trade_analysis)
         return json_trade.market
 

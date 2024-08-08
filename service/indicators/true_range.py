@@ -8,9 +8,6 @@ class TrueRange(Command):
         self.df = bars
 
     def execute(self):
-        self.calculate_atr()
-
-    def calculate_atr(self, n=14):
         """Calculates the ATR (Average True Range) for the last n bars."""
         # Wilder quer calcular a amplitude maior, se a minima for mais distante que a maxima do fechamento anterior use esta, senao a outra
         #  ATR = MME(máx(H – L, H – Cp, Cp – L)) - Cp=previous close

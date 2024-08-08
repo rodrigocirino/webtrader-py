@@ -3,7 +3,7 @@ class MarketSignals:
         self.signals = []
 
     def add_signal(self, trend, level, signals):
-        self.signals.append({"signals": [{"trend": trend, "level": level, "signals": signals}]})
+        self.signals.append({"market": [{"trend": trend, "level": level, "signals": signals}]})
 
     def get_signals(self):
         return self.signals
@@ -11,37 +11,20 @@ class MarketSignals:
     def add_info(self, objson):
         self.signals.append(objson)
 
+    def group_market(self, objson):
+        grouped_data = {"info": [], "market": {}}
 
-"""
-    @classmethod
-    def stub_fakes(cls):
-        market_signals = MarketSignals()
+        for item in objson:
+            if "info" in item:
+                grouped_data["info"] = item["info"]
+            elif "market" in item:
+                for market in item["market"]:
+                    trend = market["trend"]
+                    level = market["level"]
+                    if trend not in grouped_data["market"]:
+                        grouped_data["market"][trend] = {}
+                    if level not in grouped_data["market"][trend]:
+                        grouped_data["market"][trend][level] = []
+                    grouped_data["market"][trend][level].extend(market["signals"])
 
-        initial_data = [
-            (
-                "bullish",
-                "high",
-                ["afastamento alto, maior que 2%", "aroon em sobrepreço, se reverter saia imediatamente"],
-            ),
-            ("bullish", "medium", ["stochastic em transição", "novos dados altistas"]),
-            ("bullish", "low", ["ema altista", "vwap altista"]),
-            ("bearish", "high", ["novos dados baixistas"]),
-            ("bearish", "low", ["ema em transição"]),
-        ]
-
-        for trend, level, signals in initial_data:
-            market_signals.add_signal(trend, level, signals)
-
-        # Adicionando novos sinais
-        market_signals.add_signal("bullish", "medium", ["novos dados altistas"])
-        market_signals.add_signal("bearish", "high", ["novos dados baixistas"])
-
-        objson = {"info": [{"symbol": "cls.symbol", "zone": "12:00:00", "date": "2024-08-01 13:30:00+00:00"}]}
-        market_signals.add_info(objson)
-
-        return market_signals.get_signals()
-
-
-if __name__ == "__main__":
-    print(MarketSignals.stub_fakes())
-"""
+        return grouped_data

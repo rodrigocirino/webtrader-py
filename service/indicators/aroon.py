@@ -16,9 +16,6 @@ class Aroon(Command):
         self.df = bars
 
     def execute(self):
-        self.aroon()
-
-    def aroon(self):
         # Calcular o Aroon (Aroon Up e Aroon Down) para medir a força da tendência
         aroon = ta.aroon(self.df["high"], self.df["low"], length=14)
         data = pd.DataFrame()

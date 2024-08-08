@@ -84,7 +84,7 @@ class TradeAnalysis:
         loggs.info(f"-- {self.symbol} Período disponível: {df.index.min()} a {df.index.max()}")
         loggs.info(f"\n{'_' * 10} print_dataframe {'_' * 50}")
         # Reorder columns
-        df = df.reindex(columns=["zone", "close", "atrs", "afs", "ema20", "stoch", "aroon"])
+        # df = df.reindex(columns=["zone", "close", "atrs", "afs", "ema20", "stoch", "aroon"])
         # If false return string vazia
         if self.today:
             loggs.info(df[self.df.index >= pd.Timestamp.now(tz="UTC").normalize()].tail(150).to_string(index=True))

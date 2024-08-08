@@ -4,19 +4,30 @@ from service.market_signals import MarketSignals
 class AdviceTrading:
 
     def __init__(self, trade_analysis):
-        self.symbol = trade_analysis.symbol
-        self.df = trade_analysis.df
-        self.servicemanager = trade_analysis.servicemanager
+        self.trade_analysis = trade_analysis
         self.market = None
         self.advices_trading()
+
+    def put_info(self, signals, row):
+        objson = {
+            "info": [{
+                "symbol": self.trade_analysis.symbol,
+                "service": self.trade_analysis.servicemanager,
+                "zone": row.zone,
+                "date": row.name,
+                "ajuste": None,
+            }]
+        }
+        signals.add_info(objson)
 
     def advices_trading(self):
 
         # Only last record
-        row = self.df.iloc[-1]
+        row = self.trade_analysis.df.iloc[-2]
 
         # Load market signals
         signals = MarketSignals()
+        self.put_info(signals, row)
 
         bull_bar = row.close > row.open
 
@@ -30,18 +41,19 @@ class AdviceTrading:
         else:
             signals.add_signal("bearish", "low", ["EMA20 Bearish"])
 
-        if row.afs:
-            if row.ema20:
-                signals.add_signal("bullish", "high", ["Afastamento Alto!", "EVITE ENTRADAS"])
-            else:
-                signals.add_signal("bearish", "high", ["Afastamento Alto!", "EVITE ENTRADAS"])
+        if row.afs > 2:
+            signals.add_signal(
+                "both",
+                "high",
+                [f"{'{:.2f}'.format(row.afs)}x Afastamento da EMA20 sobre ATR5"],
+            )
 
         if row.aroon == "up":
             signals.add_signal("bullish", "high", ["Aroon Altista"])
         if row.aroon == "down":
             signals.add_signal("bearish", "high", ["Aroon Baixista"])
         if row.aroon == "mid":
-            signals.add_signal("both", "high", ["Aroon Transicao"])
+            signals.add_signal("both", "medium", ["Aroon Transicao"])
 
         if row.stoch == "up":
             signals.add_signal("bullish", "high", ["Stochastic Altista"])
@@ -54,8 +66,7 @@ class AdviceTrading:
             else:
                 signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])
 
-        objson = {"info": [{"symbol": self.symbol, "service": self.servicemanager, "zone": row.zone, "date": row.name}]}
-        signals.add_info(objson)
-
         self.market = signals.get_signals()
+        print(self.market)
+        self.market = signals.group_market(self.market)
         print(self.market)

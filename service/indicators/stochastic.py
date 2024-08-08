@@ -9,7 +9,6 @@ class Stochastic(Command):
 
     def __init__(self, bars):
         self.df = bars
-        self.execute()
 
     def execute(self):
         """
