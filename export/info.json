@@ -1,0 +1,46 @@
+[
+  {
+    "signals": [
+      {
+        "trend": "bearish",
+        "level": "low",
+        "signals": [
+          "Barra de baixa 'close < open'"
+        ]
+      }
+    ]
+  },
+  {
+    "signals": [
+      {
+        "trend": "bearish",
+        "level": "low",
+        "signals": [
+          "EMA20 Bearish"
+        ]
+      }
+    ]
+  },
+  {
+    "signals": [
+      {
+        "trend": "bearish",
+        "level": "high",
+        "signals": [
+          "Afastamento Alto!",
+          "EVITE ENTRADAS"
+        ]
+      }
+    ]
+  },
+  {
+    "info": [
+      {
+        "symbol": "QQQ.US",
+        "service": "mt5",
+        "zone": "16:55:00",
+        "date": "2024-08-07T21:55:00+00:00"
+      }
+    ]
+  }
+]

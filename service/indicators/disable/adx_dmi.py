@@ -13,7 +13,6 @@ Preferi usar Aroon ou Estocástico
 """
 
 
-
 class AdxDmi(Command):
 
     def __init__(self, bars):

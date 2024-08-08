@@ -11,6 +11,8 @@ class MarketSignals:
     def add_info(self, objson):
         self.signals.append(objson)
 
+
+"""
     @classmethod
     def stub_fakes(cls):
         market_signals = MarketSignals()
@@ -42,3 +44,4 @@ class MarketSignals:
 
 if __name__ == "__main__":
     print(MarketSignals.stub_fakes())
+"""

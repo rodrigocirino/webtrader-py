@@ -24,26 +24,26 @@ class TradeAnalysis:
         self.today = today
         self.servicemanager = servicemanager
         self.rates = Server(servicemanager, timeframe)
-        # self.scheduler = Scheduler()
 
-    def mining_dataframe(self, bars):
-        self.df = pd.DataFrame(bars)
-        if self.df.index.name != "time":  # Set 'time' as index if not already
-            self.df.set_index("time", inplace=True)
-        self.df.index = pd.to_datetime(self.df.index, unit="s", utc=True)
-        # MT5 não traz a info de tz, qual timezone ele esta retornando, calcule manualmente o shift
-        if self.servicemanager.startswith("mt5"):
-            self.df["zone"] = self.df.index.tz_convert("Etc/GMT+5")
-        else:
-            self.df["zone"] = self.df.index.tz_convert("America/Sao_Paulo")
-        self.df["zone"] = self.df["zone"].dt.strftime("%H:%M:%S")  # %Y/%m/%d %H:%M:%S
-        # Etc/GMT+3, Brazil/East, America/Sao_Paulo
+    def run(self):
+        try:
+            if self.rates.initialize():
+                self.process_ticks()
+                print("+ MT5 Inicializado.")
+            else:
+                print("Falha na inicialização do serviço.")
+        except KeyboardInterrupt:
+            print("Interrupção pelo usuário. Encerrando o programa...")
+        finally:
+            print("- MT5 Finalizado.")
+            self.rates.finalize()
 
     def process_ticks(self):
         loggs.info(f"{'.,._' * 20}")
         df = self.rates.rates_from(self.symbol)
         if df is None:
-            print(f"Não foi possível obter informações sobre o símbolo {self.symbol}")
+            print(f"\n{'*' * 20}\t{self.symbol} Ativo Não encontrado, verifique o nome do ticker.\t{'*' * 20}\n")
+            return None
         elif len(df) <= 20:
             print(
                 f"{df} \nWarning: Simbolo tem somente {len(df)} registros,"
@@ -60,7 +60,19 @@ class TradeAnalysis:
             # self.one_last_dataframe()
 
             # AdviceTrading(self.df)  # self.df filtered
-        return self.df
+
+    def mining_dataframe(self, bars):
+        self.df = pd.DataFrame(bars)
+        if self.df.index.name != "time":  # Set 'time' as index if not already
+            self.df.set_index("time", inplace=True)
+        self.df.index = pd.to_datetime(self.df.index, unit="s", utc=True)
+        # MT5 não traz a info de tz, qual timezone ele esta retornando, calcule manualmente o shift
+        if self.servicemanager.startswith("mt5"):
+            self.df["zone"] = self.df.index.tz_convert("Etc/GMT+5")
+        else:
+            self.df["zone"] = self.df.index.tz_convert("America/Sao_Paulo")
+        self.df["zone"] = self.df["zone"].dt.strftime("%H:%M:%S")  # %Y/%m/%d %H:%M:%S
+        # Etc/GMT+3, Brazil/East, America/Sao_Paulo
 
     def print_dataframe(self):
         self.df.drop(

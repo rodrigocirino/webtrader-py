@@ -39,18 +39,6 @@ class Server:
         df.rename(columns={"Open": "open", "High": "high", "Low": "low", "Adj Close": "close"}, inplace=True)
         return df
 
-    """
-    def on_off_yfinance(self, stocks=None, start=None, end=None, interval="5m", period="60d"):
-        # Download percent change
-        if stocks is None:
-            stocks = []
-        # Add ".SA" sufix to Yfinance if the string doesn't end with ".SA" and doesn't contain "^"
-        stocks = [stock + ".SA" if not stock.endswith(".SA") and "^" not in stock else stock for stock in stocks]
-        data = yf.download(stocks, start=start, end=end, period=period, interval=interval)
-        data.index = pd.to_datetime(data.index).tz_convert("Etc/GMT+3")
-        return data
-    """
-
     def initialize(self):
         if self.mt5 is not None:
             if not self.mt5.initialize():
@@ -61,7 +49,7 @@ class Server:
                 self.mt5.shutdown()
                 return False
             else:
-                print("MetaTrader 5 initialized successfully")
+                print("+ MetaTrader 5 initialized")
                 return True
         elif self.service == "yf":
             print("Yfinance initializing.....")
@@ -72,4 +60,5 @@ class Server:
 
     def finalize(self):
         if self.service == "mt5":
+            print("- MetaTrader 5 shutdown")
             mt5.shutdown()

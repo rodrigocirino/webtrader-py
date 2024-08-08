@@ -3,9 +3,10 @@ from service.market_signals import MarketSignals
 
 class AdviceTrading:
 
-    def __init__(self, symbol, bars):
-        self.symbol = symbol
-        self.df = bars
+    def __init__(self, trade_analysis):
+        self.symbol = trade_analysis.symbol
+        self.df = trade_analysis.df
+        self.servicemanager = trade_analysis.servicemanager
         self.market = None
         self.advices_trading()
 
@@ -53,7 +54,7 @@ class AdviceTrading:
             else:
                 signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])
 
-        objson = {"info": [{"symbol": self.symbol, "zone": row.zone, "date": row.name}]}
+        objson = {"info": [{"symbol": self.symbol, "service": self.servicemanager, "zone": row.zone, "date": row.name}]}
         signals.add_info(objson)
 
         self.market = signals.get_signals()

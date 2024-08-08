@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "007be9c3-91fe-4f62-ad66-a6d9a7bd1624",
+		"name": "Web Trader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36698956"
+	},
+	"item": [
+		{
+			"name": "yf ^RUT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/trade?service=yf&symbol=^RUT&today=True",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"trade"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "yf"
+						},
+						{
+							"key": "symbol",
+							"value": "^RUT"
+						},
+						{
+							"key": "today",
+							"value": "True"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "YF ^RUT",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/trade?service=yf&symbol=^RUT&today=True",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"trade"
+							],
+							"query": [
+								{
+									"key": "service",
+									"value": "yf"
+								},
+								{
+									"key": "symbol",
+									"value": "^RUT"
+								},
+								{
+									"key": "today",
+									"value": "True"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Wed, 07 Aug 2024 22:37:26 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "225"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"trend\": \"bearish\",\n        \"level\": \"low\",\n        \"signals\": [\n            \"Barra de baixa 'close < open'\"\n        ]\n    },\n    {\n        \"trend\": \"bearish\",\n        \"level\": \"low\",\n        \"signals\": [\n            \"EMA20 Bearish\"\n        ]\n    },\n    {\n        \"trend\": \"bearish\",\n        \"level\": \"high\",\n        \"signals\": [\n            \"Afastamento Alto!\",\n            \"EVITE ENTRADAS\"\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "mt5 Bra50",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/trade?service=mt5&symbol=QQQ.US&today=True",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"trade"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "mt5"
+						},
+						{
+							"key": "symbol",
+							"value": "QQQ.US"
+						},
+						{
+							"key": "today",
+							"value": "True"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "mt5 QQQ",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/trade?service=mt5&symbol=QQQ.US&today=True",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"trade"
+							],
+							"query": [
+								{
+									"key": "service",
+									"value": "mt5"
+								},
+								{
+									"key": "symbol",
+									"value": "QQQ.US"
+								},
+								{
+									"key": "today",
+									"value": "True"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "date",
+							"value": "Thu, 08 Aug 2024 02:02:56 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "367"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"signals\": [\n            {\n                \"trend\": \"bearish\",\n                \"level\": \"low\",\n                \"signals\": [\n                    \"Barra de baixa 'close < open'\"\n                ]\n            }\n        ]\n    },\n    {\n        \"signals\": [\n            {\n                \"trend\": \"bearish\",\n                \"level\": \"low\",\n                \"signals\": [\n                    \"EMA20 Bearish\"\n                ]\n            }\n        ]\n    },\n    {\n        \"signals\": [\n            {\n                \"trend\": \"bearish\",\n                \"level\": \"high\",\n                \"signals\": [\n                    \"Afastamento Alto!\",\n                    \"EVITE ENTRADAS\"\n                ]\n            }\n        ]\n    },\n    {\n        \"info\": [\n            {\n                \"symbol\": \"QQQ.US\",\n                \"service\": \"mt5\",\n                \"zone\": \"16:55:00\",\n                \"date\": \"2024-08-07T21:55:00+00:00\"\n            }\n        ]\n    }\n]"
+				}
+			]
+		}
+	]
+}

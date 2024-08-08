@@ -13,17 +13,18 @@ class TradeData:
         self.service = service
         self.symbol = symbols
         self.today = today
+        self.process()
 
     def process(self):
-        tick_receiver = TradeAnalysis(self.service, self.symbol, self.today)
-        bars = tick_receiver.process_ticks()
-        return AdviceTrading(self.symbol, bars)
+        trade_analysis = TradeAnalysis(self.service, self.symbol, self.today)
+        trade_analysis.run()
+        json_trade = AdviceTrading(trade_analysis)
+        return json_trade.market
 
 
 @app.get("/trade", response_class=JSONResponse)
 def read_user_item(service: str, symbol: str | None = None, today: bool = False):
-    td = TradeData(service, symbol, today).process()
-    return td.market
+    return TradeData(service, symbol, today).process()
 
 
 if __name__ == "__main__":
