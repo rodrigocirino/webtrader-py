@@ -7,16 +7,24 @@ width="300" alt="FastApi Logo" /></a>
 
 - This project use FastAPI Framework.
     - Docs: https://fastapi.tiangolo.com/pt/)
-    - Flask is a lightweight WSGI web application framework.)
 
-### Run
+#### Server up
 
 ```bash
 # Use this
 python app.py
 # or
 uvicorn app:fast --host 0.0.0.0 --port 80
+```
 
-# test
-curl http://localhost/trade?service=yf&symbol=NQ=F&today=True
+#### Test
+
+```bash
+# Test with
+# 🤩 wsl or linux terminal
+curl --location 'http://localhost/trade?service=mt5&symbol=MinDolSep24' | jq .
+curl --location 'http://localhost/trade?service=mt5&symbol=QQQ.US&today=True'
+# 🤬 powershell json returns
+(curl 'http://localhost/trade?service=yf&symbol=%5ESPX' -UseBasicParsing).Content | ConvertFrom-Json | ConvertTo-Json -Depth 10
+
 ```
