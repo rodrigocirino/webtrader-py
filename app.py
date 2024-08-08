@@ -10,24 +10,25 @@ app = FastAPI()
 
 
 class TradeData:
-    def __init__(self, service, symbols, today):
+    def __init__(self, service, symbols, today, log):
         self.service = service
         self.symbol = symbols
         self.today = today
+        self.reclog = log
 
     def process(self):
         trade_analysis = TradeAnalysis(self.service, self.symbol, self.today)
         trade_analysis.run()
         # show in logs
-        ConsoleLog(trade_analysis)
+        ConsoleLog(trade_analysis, self.reclog)
         # get market json
         json_trade = AdviceTrading(trade_analysis)
         return json_trade.market
 
 
 @app.get("/trade", response_class=JSONResponse)
-def read_user_item(service: str, symbol: str | None = None, today: bool = False):
-    return TradeData(service, symbol, today).process()
+def read_user_item(service: str, symbol: str | None = None, today: bool = False, log: bool = True):
+    return TradeData(service, symbol, today, log).process()
 
 
 if __name__ == "__main__":

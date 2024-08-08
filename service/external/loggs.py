@@ -37,3 +37,14 @@ class Loggs:
         # Add handlers to logger
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
+
+    def disable_temporary_handlers(loggs, reclog):
+
+        # Set the log level to a higher level, e.g., WARNING or CRITICAL
+        if not reclog:
+            print(f"Disabling logs to file log={reclog}, level={loggs.getEffectiveLevel()}")
+            loggs.setLevel(logging.CRITICAL)
+
+        # Restore the original log level after the tests
+        if reclog:
+            loggs.setLevel(logging.INFO)
