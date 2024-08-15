@@ -1,3 +1,7 @@
+from service.indicators.aroon import Aroon
+from service.indicators.ema import Ema
+from service.indicators.stochastic import Stochastic
+from service.indicators.true_range import TrueRange
 from service.market_signals import MarketSignals
 
 
@@ -8,7 +12,7 @@ class AdviceTrading:
         self.market = None
         self.advices_trading()
 
-    def put_info(self, signals, row):
+    def put_info(self, row, signals):
         objson = {
             "info": [{
                 "symbol": self.trade_analysis.symbol,
@@ -22,49 +26,24 @@ class AdviceTrading:
 
     def advices_trading(self):
 
+        # Level.X: empty, trace, debug, info, warning, notice, caution, error, critical, emergency
+
         # Only last record
         row = self.trade_analysis.df.iloc[-2]
 
         # Load market signals
         signals = MarketSignals()
-        self.put_info(signals, row)
+        self.put_info(row, signals)
 
-        bull_bar = row.close > row.open
+        # EMA Advices
+        Ema.analysis(row, signals)
 
-        if bull_bar:
-            signals.add_signal("bullish", "low", ["Barra de alta 'close > open'"])
-        else:
-            signals.add_signal("bearish", "low", ["Barra de baixa 'close < open'"])
+        TrueRange.analysis(row, signals)
 
-        if row.ema20:
-            signals.add_signal("bullish", "low", ["EMA20 Bullish"])
-        else:
-            signals.add_signal("bearish", "low", ["EMA20 Bearish"])
+        Aroon.analysis(row, signals)
 
-        if row.afs > 2:
-            signals.add_signal(
-                "both",
-                "high",
-                [f"{'{:.2f}'.format(row.afs)}x Afastamento da EMA20 sobre ATR5"],
-            )
-
-        if row.aroon == "up":
-            signals.add_signal("bullish", "high", ["Aroon Altista"])
-        if row.aroon == "down":
-            signals.add_signal("bearish", "high", ["Aroon Baixista"])
-        if row.aroon == "mid":
-            signals.add_signal("both", "medium", ["Aroon Transicao"])
-
-        if row.stoch == "up":
-            signals.add_signal("bullish", "high", ["Stochastic Altista"])
-        if row.stoch == "down":
-            signals.add_signal("bearish", "high", ["Stochastic Baixista"])
-
-        if row.atrs:
-            if bull_bar:
-                signals.add_signal("bullish", "high", ["Barra Clímax", "COMPRE NÃO VENDA"])
-            else:
-                signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])
+        Stochastic.analysis(row, signals)
 
         self.market = signals.get_signals()
         self.market = signals.group_market(self.market)
+        # self.market = signals.fake_json()

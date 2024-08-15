@@ -6,6 +6,10 @@ class Command(ABC):
     def execute(self) -> None:
         pass
 
+    @staticmethod
+    def analysis(self) -> None:
+        pass
+
 
 class CommandController:
     def __init__(self):

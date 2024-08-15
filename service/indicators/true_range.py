@@ -19,3 +19,11 @@ class TrueRange(Command):
     def is_atr_over(self, true_range):
         mult = 1.50
         self.df["atrs"] = np.where(abs(self.df["open"] - self.df["close"]) > (true_range.shift() * mult), True, "")
+
+    @staticmethod
+    def analysis(row, signals):
+        if row.atrs:
+            if row.close > row.open:
+                signals.add_signal("bullish", "high", ["Barra Clímax", "COMPRE NÃO VENDA"])
+            else:
+                signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])

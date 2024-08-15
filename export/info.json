@@ -10,18 +10,39 @@
   ],
   "market": {
     "bullish": {
-      "low": [
+      "trace": [
         "Barra de alta 'close > open'",
-        "EMA20 Bullish"
+        "Aroon Transicao"
       ],
-      "high": [
-        "Aroon Altista",
+      "info": [
+        "EMA20 Bullish",
         "Stochastic Altista"
+      ],
+      "emergency": [
+        "Aroon Altista",
+        "Stochastic Altista",
+        "3.25x Afastamento da EMA acima 2x, evite entradas a mercado."
+      ],
+      "critical": [
+        "Barra Clímax",
+        "COMPRE NÃO VENDA"
       ]
     },
-    "both": {
-      "high": [
-        "3.25x Afastamento da EMA acima 2x, evite entradas a mercado."
+    "bearish": {
+      "empty": [
+        "Barra de baixa 'close < open'"
+      ],
+      "warning": [
+        "EMA20 Bearish",
+        "Aroon Baixista",
+        "Stochastic Baixista"
+      ],
+      "error": [
+        "x Afastamento da EMA20 sobre ATR5"
+      ],
+      "critical": [
+        "Barra Clímax",
+        "VENDA NÃO COMPRE"
       ]
     }
   }

@@ -38,3 +38,10 @@ class Stochastic(Command):
             return "down"
         else:
             return None
+
+    @staticmethod
+    def analysis(row, signals):
+        if row.stoch == "up":
+            signals.add_signal("bullish", "high", ["Stochastic Altista"])
+        if row.stoch == "down":
+            signals.add_signal("bearish", "high", ["Stochastic Baixista"])

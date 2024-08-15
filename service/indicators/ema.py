@@ -1,6 +1,8 @@
 import pandas_ta as ta
 
 from service.interface.command import Command
+from service.interface.direction import Direction
+from service.interface.levels import Level
 
 """
 Confict with Sideways Alert: Se a EMA esta muito proxima, cruzando ou tem um alerta de mercado lateral
@@ -33,3 +35,22 @@ class Ema(Command):
         # Baseado no ATR amplitude das barras, quantas vezes o fechamento esta afastado da média,
         # Alta volatilidade e/ou barras muito grandes tendem a fechar mais longe, com mais variacao no afastamento
         self.df["afs"] = abs(afs_ema) / limite_dinamico
+
+    @staticmethod
+    def analysis(row, signals):
+        if row.ema20:
+            signals.add_signal(Direction.BULLISH, Level.INFO, ["EMA20 Bullish"])
+        else:
+            signals.add_signal(Direction.BEARISH, Level.INFO, ["EMA20 Bearish"])
+
+        if row.close > row.open:
+            signals.add_signal(Direction.BULLISH, Level.INFO, ["Barra de alta 'close > open'"])
+        else:
+            signals.add_signal("bearish", "low", ["Barra de baixa 'close < open'"])
+
+        if row.afs > 2:
+            signals.add_signal(
+                "both",
+                "high",
+                [f"{'{:.2f}'.format(row.afs)}x Afastamento da EMA20 sobre ATR5"],
+            )

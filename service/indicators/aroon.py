@@ -23,17 +23,25 @@ class Aroon(Command):
         data["Aroon_Down"] = aroon["AROOND_14"]
         # Aplicar a função define_trend_strength para cada par de valores Aroon Up e Aroon Down e criar uma nova coluna
         self.df["aroon"] = data.apply(
-            lambda row: define_trend_strength(row["Aroon_Up"], row["Aroon_Down"]),
+            lambda row: self.define_trend_strength(row["Aroon_Up"], row["Aroon_Down"]),
             axis=1,
         )
 
+    def define_trend_strength(self, aroon_up, aroon_down):
+        if aroon_up > 80 and aroon_down < 20:
+            return "up"
+        elif aroon_down > 80 and aroon_up < 20:
+            return "down"
+        elif (80 >= aroon_up >= 50 > aroon_down) or (80 >= aroon_down >= 50 > aroon_up):
+            return "mid"  # transition part
+        else:
+            return None
 
-def define_trend_strength(aroon_up, aroon_down):
-    if aroon_up > 80 and aroon_down < 20:
-        return "up"
-    elif aroon_down > 80 and aroon_up < 20:
-        return "down"
-    elif (80 >= aroon_up >= 50 > aroon_down) or (80 >= aroon_down >= 50 > aroon_up):
-        return "mid"  # transition part
-    else:
-        return None
+    @staticmethod
+    def analysis(row, signals):
+        if row.aroon == "up":
+            signals.add_signal("bullish", "high", ["Aroon Altista"])
+        if row.aroon == "down":
+            signals.add_signal("bearish", "high", ["Aroon Baixista"])
+        if row.aroon == "mid":
+            signals.add_signal("both", "medium", ["Aroon Transicao"])

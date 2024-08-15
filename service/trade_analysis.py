@@ -69,9 +69,9 @@ class TradeAnalysis:
         # Cria uma instância do controlador
         controller = CommandController()
         # Adiciona os comandos ao controlador
-        controller.add_command(TrueRange(self.df))
         controller.add_command(Ema(self.df))
         controller.add_command(Aroon(self.df))
+        controller.add_command(TrueRange(self.df))
         controller.add_command(Stochastic(self.df))
         # Processa os comandos
         controller.process_command()
