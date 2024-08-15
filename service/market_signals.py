@@ -28,6 +28,3 @@ class MarketSignals:
                     grouped_data["market"][trend][level].extend(market["signals"])
 
         return grouped_data
-
-    def fake_json(self):
-        pass

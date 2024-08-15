@@ -19,14 +19,11 @@ class AdviceTrading:
                 "service": self.trade_analysis.servicemanager,
                 "zone": row.zone,
                 "date": row.name,
-                "ajuste": None,
             }]
         }
         signals.add_info(objson)
 
     def advices_trading(self):
-
-        # Level.X: empty, trace, debug, info, warning, notice, caution, error, critical, emergency
 
         # Only last record
         row = self.trade_analysis.df.iloc[-2]
@@ -35,15 +32,12 @@ class AdviceTrading:
         signals = MarketSignals()
         self.put_info(row, signals)
 
-        # EMA Advices
+        # Indicators
         Ema.analysis(row, signals)
-
         TrueRange.analysis(row, signals)
-
         Aroon.analysis(row, signals)
-
         Stochastic.analysis(row, signals)
 
+        # Optimize
         self.market = signals.get_signals()
         self.market = signals.group_market(self.market)
-        # self.market = signals.fake_json()
