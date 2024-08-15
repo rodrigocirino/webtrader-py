@@ -1,6 +1,8 @@
 import pandas_ta as ta
 
 from service.interface.command import Command
+from service.interface.direction import Direction
+from service.interface.levels import Level
 
 """Indicator: Stochastic Oscillator (STOCH)"""
 
@@ -42,6 +44,6 @@ class Stochastic(Command):
     @staticmethod
     def analysis(row, signals):
         if row.stoch == "up":
-            signals.add_signal("bullish", "high", ["Stochastic Altista"])
+            signals.add_signal(Direction.BULLISH, Level.CRITICAL, ["Stochastic Altista"])
         if row.stoch == "down":
-            signals.add_signal("bearish", "high", ["Stochastic Baixista"])
+            signals.add_signal(Direction.BEARISH, Level.CRITICAL, ["Stochastic Baixista"])

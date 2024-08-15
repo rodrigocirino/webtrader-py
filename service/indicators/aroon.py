@@ -2,6 +2,8 @@ import pandas as pd
 import pandas_ta as ta
 
 from service.interface.command import Command
+from service.interface.direction import Direction
+from service.interface.levels import Level
 
 """
 Objetivo: Indicar pontos de entrada numa tendência muito forte.
@@ -32,16 +34,20 @@ class Aroon(Command):
             return "up"
         elif aroon_down > 80 and aroon_up < 20:
             return "down"
-        elif (80 >= aroon_up >= 50 > aroon_down) or (80 >= aroon_down >= 50 > aroon_up):
-            return "mid"  # transition part
+        elif 80 >= aroon_up >= 50 > aroon_down:
+            return "up_mid"
+        elif 80 >= aroon_down >= 50 > aroon_up:
+            return "down_mid"
         else:
             return None
 
     @staticmethod
     def analysis(row, signals):
         if row.aroon == "up":
-            signals.add_signal("bullish", "high", ["Aroon Altista"])
+            signals.add_signal(Direction.BULLISH, Level.INFO, ["Aroon Altista"])
         if row.aroon == "down":
-            signals.add_signal("bearish", "high", ["Aroon Baixista"])
-        if row.aroon == "mid":
-            signals.add_signal("both", "medium", ["Aroon Transicao"])
+            signals.add_signal(Direction.BEARISH, Level.INFO, ["Aroon Baixista"])
+        if row.aroon == "up_mid":
+            signals.add_signal(Direction.BULLISH, Level.TRACE, ["Aroon Transicao"])
+        if row.aroon == "down_mid":
+            signals.add_signal(Direction.BEARISH, Level.TRACE, ["Aroon Transicao"])

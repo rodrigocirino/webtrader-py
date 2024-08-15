@@ -1,6 +1,8 @@
 import numpy as np
 
 from service.interface.command import Command
+from service.interface.direction import Direction
+from service.interface.levels import Level
 
 
 class TrueRange(Command):
@@ -24,6 +26,6 @@ class TrueRange(Command):
     def analysis(row, signals):
         if row.atrs:
             if row.close > row.open:
-                signals.add_signal("bullish", "high", ["Barra Clímax", "COMPRE NÃO VENDA"])
+                signals.add_signal(Direction.BULLISH, Level.CRITICAL, ["Barra Clímax", "COMPRE NÃO VENDA"])
             else:
-                signals.add_signal("bearish", "high", ["Barra Clímax", "VENDA NÃO COMPRE"])
+                signals.add_signal(Direction.BEARISH, Level.CRITICAL, ["Barra Clímax", "VENDA NÃO COMPRE"])

@@ -46,11 +46,15 @@ class Ema(Command):
         if row.close > row.open:
             signals.add_signal(Direction.BULLISH, Level.INFO, ["Barra de alta 'close > open'"])
         else:
-            signals.add_signal("bearish", "low", ["Barra de baixa 'close < open'"])
+            signals.add_signal(Direction.BEARISH, Level.INFO, ["Barra de baixa 'close < open'"])
 
         if row.afs > 2:
+            if row.ema20:
+                direction = Direction.BULLISH
+            else:
+                direction = Direction.BEARISH
             signals.add_signal(
-                "both",
-                "high",
+                direction,
+                Level.TRACE,
                 [f"{'{:.2f}'.format(row.afs)}x Afastamento da EMA20 sobre ATR5"],
             )
