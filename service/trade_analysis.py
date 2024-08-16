@@ -51,6 +51,11 @@ class TradeAnalysis:
             loggs.info(f"-- Rates of {self.symbol} with {self.servicemanager} in {datetime.now()} --")
             self.mining_dataframe(df)
             self.analyze_indicators()
+            self.filter_bars(False)
+
+    def filter_bars(self, filtered):
+        if filtered:
+            self.df = self.df[self.df.index <= "2024-08-15 23:15:00+00:00"]
 
     def mining_dataframe(self, bars):
         self.df = pd.DataFrame(bars)

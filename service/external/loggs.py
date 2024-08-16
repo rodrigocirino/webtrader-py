@@ -36,7 +36,7 @@ class Loggs:
 
         # Add handlers to logger
         self.logger.addHandler(console_handler)
-        self.logger.addHandler(file_handler)
+        # DISABLE LOG FILE self.logger.addHandler(file_handler)
 
     def disable_temporary_handlers(loggs, reclog):
 

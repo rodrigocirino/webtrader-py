@@ -4,6 +4,8 @@ from service.interface.command import Command
 from service.interface.direction import Direction
 from service.interface.levels import Level
 
+mult = 1.5
+
 
 class TrueRange(Command):
     def __init__(self, bars):
@@ -19,13 +21,12 @@ class TrueRange(Command):
         # df['mult_atr'] = (abs(df['open'] - df['close']) >= (atr_multiples * df['ATR']))
 
     def is_atr_over(self, true_range):
-        mult = 1.50
         self.df["atrs"] = np.where(abs(self.df["open"] - self.df["close"]) > (true_range.shift() * mult), True, "")
 
     @staticmethod
     def analysis(row, signals):
         if row.atrs:
             if row.close > row.open:
-                signals.add_signal(Direction.BULLISH, Level.CRITICAL, ["Barra Clímax", "COMPRE NÃO VENDA"])
+                signals.add_signal(Direction.BULLISH, Level.ERROR, [f"Barra Clímax {mult}vz ATR - COMPRE NÃO VENDA"])
             else:
-                signals.add_signal(Direction.BEARISH, Level.CRITICAL, ["Barra Clímax", "VENDA NÃO COMPRE"])
+                signals.add_signal(Direction.BEARISH, Level.ERROR, [f"Barra Clímax {mult}vz ATR - VENDA NÃO COMPRE"])

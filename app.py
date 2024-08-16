@@ -46,5 +46,5 @@ def read_user_item(service: str, symbol: str | None = None, today: bool = False,
 
 if __name__ == "__main__":
     # uvicorn app:fast --host 0.0.0.0 --port 80
-    # uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True, workers=2)
-    uvicorn.run(app, port=80)
+    uvicorn.run("__main__:app", host="0.0.0.0", port=80, reload=True, workers=2)
+    # uvicorn.run(app, port=80)

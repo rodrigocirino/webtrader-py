@@ -44,10 +44,10 @@ class Aroon(Command):
     @staticmethod
     def analysis(row, signals):
         if row.aroon == "up":
-            signals.add_signal(Direction.BULLISH, Level.INFO, ["Aroon Altista"])
+            signals.add_signal(Direction.BULLISH, Level.WARNING, ["Aroon Altista"])
         if row.aroon == "down":
-            signals.add_signal(Direction.BEARISH, Level.INFO, ["Aroon Baixista"])
+            signals.add_signal(Direction.BEARISH, Level.WARNING, ["Aroon Baixista"])
         if row.aroon == "up_mid":
-            signals.add_signal(Direction.BULLISH, Level.TRACE, ["Aroon Transicao"])
+            signals.add_signal(Direction.BULLISH, Level.DEBUG, ["Aroon Transicao"])
         if row.aroon == "down_mid":
-            signals.add_signal(Direction.BEARISH, Level.TRACE, ["Aroon Transicao"])
+            signals.add_signal(Direction.BEARISH, Level.DEBUG, ["Aroon Transicao"])
