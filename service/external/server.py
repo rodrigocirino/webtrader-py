@@ -49,10 +49,10 @@ class Server:
                 self.mt5.shutdown()
                 return False
             else:
-                print("+ MetaTrader 5 initialized")
+                print("\n\n+ MetaTrader 5 initialized")
                 return True
         elif self.service == "yf":
-            print("Yfinance initializing.....")
+            print("\n\nYfinance initializing.....")
             return True
         else:
             print("Service not supported")

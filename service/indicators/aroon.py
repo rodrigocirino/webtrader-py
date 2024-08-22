@@ -48,6 +48,6 @@ class Aroon(Command):
         if row.aroon == "down":
             signals.add_signal(Direction.BEARISH, Level.WARNING, ["Aroon Baixista"])
         if row.aroon == "up_mid":
-            signals.add_signal(Direction.BULLISH, Level.DEBUG, ["Aroon Transicao"])
+            signals.add_signal(Direction.BULLISH, Level.DEBUG, ["Aroon Altista Transicao"])
         if row.aroon == "down_mid":
-            signals.add_signal(Direction.BEARISH, Level.DEBUG, ["Aroon Transicao"])
+            signals.add_signal(Direction.BEARISH, Level.DEBUG, ["Aroon Baixista Transicao"])

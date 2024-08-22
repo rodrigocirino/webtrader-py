@@ -23,9 +23,9 @@ class ConsoleLog:
         loggs.info(f"-- {trade_analysis.symbol} Período disponível: {df.index.min()} a {df.index.max()}")
         loggs.info(f"\n{'_' * 10} print_dataframe {'_' * 50}")
         if trade_analysis.today:
-            loggs.info(df[df.index >= pd.Timestamp.now(tz="UTC").normalize()].tail(150).to_string(index=True))
-        else:
-            loggs.info(df)
+            print(df)
+        loggs.info(f"\n{'_' * 10} {trade_analysis.symbol} - TODAY {'_' * 50}")
+        loggs.info(df[df.index >= pd.Timestamp.now(tz="UTC").normalize()].tail(150).to_string(index=True))
 
         # Imprime cada coluna com seu valor na última linha, alinhando com 50 caracteres de forma pythonica
         loggs.info(f"\n{'.' * 10}\t technical analysis \t{'.' * 50}")

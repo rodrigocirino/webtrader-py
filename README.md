@@ -30,3 +30,14 @@ curl http://localhost/trade?service=mt5&symbol=Bra50&today=True&log=False
 ConvertTo-Json -Depth 10
 
 ```
+
+##### Todo
+- 1000 pontos da abertura
+- EMA (não operar entre as linhas)
+	- Se muito afastada tb não (use ordens limit)
+- Identificacao dos pontos objetivos, extremos ou importantes do dia
+	- (rompimento e reversão), **(most breakouts fail)**
+	- location
+- Engolfo de barras (saída antecipada, desalavancagem)
+- Ajuste (proximidade)
+- Horarios (pré-cadastrados, evitar exposição em fatos relevantes)

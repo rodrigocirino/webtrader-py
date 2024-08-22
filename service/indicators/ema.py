@@ -26,7 +26,7 @@ class Ema(Command):
         self.df.loc[self.df["low"] > ema, color_column] = True  # up bullish
         self.df.loc[self.df["high"] < ema, color_column] = False  # down bearish
 
-    def afastamento(self, period=20, atrs=5, limite=2):
+    def afastamento(self, period=20, atrs=5):
         # EMA
         ema = self.df["close"].ewm(span=period).mean()
 
@@ -39,29 +39,30 @@ class Ema(Command):
         atr = ta.atr(self.df["high"], self.df["low"], self.df["close"], length=atrs)
         limite_dinamico = (atr / ema) * 100
         self.df["afs"] = abs(afast) / limite_dinamico
+        self.df["afs_p"] = afast
 
-        # Verificação
-        self.df["afs_activate"] = self.df["afs"] > limite
 
     @staticmethod
-    def analysis(row, signals):
+    def analysis(row, signals, limite=2):
         if row.ema20:
-            signals.add_signal(Direction.BULLISH, Level.EMPTY, ["EMA20 Bullish"])
+            signals.add_signal(Direction.BULLISH, Level.EMPTY, ["EMA20 Altista"])
         else:
-            signals.add_signal(Direction.BEARISH, Level.EMPTY, ["EMA20 Bearish"])
+            signals.add_signal(Direction.BEARISH, Level.EMPTY, ["EMA20 Baixista"])
 
         if row.close > row.open:
             signals.add_signal(Direction.BULLISH, Level.EMPTY, ["Barra de ALTA"])
         else:
             signals.add_signal(Direction.BEARISH, Level.EMPTY, ["Barra de BAIXA"])
 
-        if row.afs_activate:
-            if row.ema20 < row.close:
+        # Verificação
+        afs_activate = row.afs > limite
+        if afs_activate:
+            if row.ema20 > row.close:
                 direction = Direction.BULLISH
             else:
                 direction = Direction.BEARISH
             signals.add_signal(
                 direction,
                 Level.EMERGENCY,
-                [f"{'{:.2f}'.format(row.afs)}x Afastada da EMA ´pts máx`"],
+                [f"{'{:.2f}%'.format(row.afs_p)} {'{:.1f}x'.format(row.afs)} Afastada da EMA20."],
             )
