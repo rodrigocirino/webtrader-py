@@ -59,10 +59,26 @@ class Ema(Command):
         if afs_activate:
             if row.ema20 > row.close:
                 direction = Direction.BULLISH
+                signals.add_signal(
+                    direction,
+                    Level.NOTICE,
+                    ["Tendência forte, NÃO VENDA! Compras são facilitadas pela tendência."],
+                )
             else:
                 direction = Direction.BEARISH
+                signals.add_signal(
+                    direction,
+                    Level.NOTICE,
+                    ["Tendência forte, NÃO COMPRE! Vendas são facilitadas pela tendência."],
+                )
             signals.add_signal(
                 direction,
                 Level.EMERGENCY,
-                [f"{'{:.2f}%'.format(row.afs_p)} {'{:.1f}x'.format(row.afs)} Afastada da EMA20."],
+                [
+                    f"{'{:.2f}%'.format(row.afs_p)} {'{:.1f}x'.format(row.afs)} Afastada da EMA20.", 
+                    "BT forte, possível entrada no fechamento, stop na mínima da barra.",
+                    "BT a próxima deve superar sua máxima, e não reverter, indicando continuidade",
+                    "Entrada a 50% da BT demonstra fraqueza da tendência, se prepare para stopar."
+                
+                ],
             )
