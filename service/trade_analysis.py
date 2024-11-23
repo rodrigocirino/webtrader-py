@@ -18,7 +18,7 @@ loggs = Loggs().logger
 
 class TradeAnalysis:
 
-    def __init__(self, servicemanager, symbols, today, timeframe=5):
+    def __init__(self, servicemanager, symbols, today, timeframe):
         self.symbol = symbols
         self.df = pd.DataFrame()
         self.today = today

@@ -23,14 +23,15 @@ app.add_middleware(
 
 
 class TradeData:
-    def __init__(self, service, symbols, today, log):
+    def __init__(self, service, symbols, today, log, timeframe):
         self.service = service
         self.symbol = symbols
         self.today = today
         self.reclog = log
+        self.timeframe = log
 
     def process(self):
-        trade_analysis = TradeAnalysis(self.service, self.symbol, self.today)
+        trade_analysis = TradeAnalysis(self.service, self.symbol, self.today, self.timeframe)
         trade_analysis.run()
         # show in logs
         ConsoleLog(trade_analysis, self.reclog)
@@ -40,8 +41,8 @@ class TradeData:
 
 
 @app.get("/trade", response_class=JSONResponse)
-def read_user_item(service: str, symbol: str | None = None, today: bool = False, log: bool = True):
-    return TradeData(service, symbol, today, log).process()
+def read_user_item(service: str, symbol: str | None = None, today: bool = False, log: bool = True, timeframe: int = 5):
+    return TradeData(service, symbol, today, log, timeframe).process()
 
 
 if __name__ == "__main__":
